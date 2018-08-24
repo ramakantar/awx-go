@@ -17,10 +17,10 @@ type ListGroupsResponse struct {
 }
 
 // ListGroups shows list of awx Groups.
-func (u *GroupService) ListGroups(params map[string]string) ([]*Group, *ListGroupsResponse, error) {
+func (g *GroupService) ListGroups(params map[string]string) ([]*Group, *ListGroupsResponse, error) {
 	result := new(ListGroupsResponse)
-	endpoint := "/api/v2/Groups/"
-	resp, err := u.client.Requester.GetJSON(endpoint, result, params)
+	endpoint := "/api/v2/groups/"
+	resp, err := g.client.Requester.GetJSON(endpoint, result, params)
 	if err != nil {
 		return nil, result, err
 	}
@@ -33,9 +33,9 @@ func (u *GroupService) ListGroups(params map[string]string) ([]*Group, *ListGrou
 }
 
 // CreateGroup creates an awx Group.
-func (u *GroupService) CreateGroup(data map[string]interface{}, params map[string]string) (*Group, error) {
+func (g *GroupService) CreateGroup(data map[string]interface{}, params map[string]string) (*Group, error) {
 	result := new(Group)
-	endpoint := "/api/v2/Groups/"
+	endpoint := "/api/v2/groups/"
 	payload, err := json.Marshal(data)
 	if err != nil {
 		return nil, err
@@ -43,7 +43,7 @@ func (u *GroupService) CreateGroup(data map[string]interface{}, params map[strin
 
 	// Add check if Group exists and return proper error
 
-	resp, err := u.client.Requester.PostJSON(endpoint, bytes.NewReader(payload), result, params)
+	resp, err := g.client.Requester.PostJSON(endpoint, bytes.NewReader(payload), result, params)
 	if err != nil {
 		return nil, err
 	}
